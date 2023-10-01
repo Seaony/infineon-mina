@@ -3,7 +3,8 @@
  *
  * @type {string}
  */
-export const domain = 'http://infineon.test/api'
+// export const domain = 'http://infineon.test/api'
+export const domain = 'https://infineon.valorcamp.com/api'
 
 /**
  * 请求 Accept
