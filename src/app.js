@@ -14,6 +14,12 @@ const App = createApp({
     if (authStore.user && !authStore.user.staff_id) {
       Taro.redirectTo({ url: '/pages/bind/index' })
     }
+  },
+  async onShow(options) {
+    const authStore = useAuthStore()
+    if (authStore.isAuthenticated) {
+      await authStore.refresh()
+    }
   }
 })
 

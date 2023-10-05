@@ -59,8 +59,13 @@ class Request {
 
       requester.then(res => {
         if (res.statusCode >= 400 && res.data.message) {
-          Taro.showToast({ title: res.data.message, icon: 'none' })
-          return reject(res)
+          if (res.statusCode == 401) {
+            Taro.showToast({ title: '未登录，请先登录', icon: 'none' })
+            return reject(res)
+          } else {
+            Taro.showToast({ title: res.data.message, icon: 'none' })
+            return reject(res)
+          }
         }
         resolve(res.data)
       })

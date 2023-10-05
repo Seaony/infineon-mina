@@ -31,7 +31,7 @@ const onTapLogin = async () => {
         <view class="bind-index-form-item-title">手机号</view>
         <view class="bind-index-form-item-inner flex flex-items-center">
           <image src="/static/bind/user.png"></image>
-          <input class="flex-auto" v-model="mobile" type="text">
+          <input class="flex-auto" v-model="mobile" type="number">
         </view>
       </view>
       <view class="bind-index-form-item">

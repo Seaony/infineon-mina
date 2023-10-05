@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import Taro, { useDidShow } from '@tarojs/taro'
+import Taro, { useDidShow, useShareAppMessage } from '@tarojs/taro'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from "@/stores/auth";
 import { checkin } from '@/api/user'
@@ -13,7 +13,18 @@ const { user } = storeToRefs(authStore)
 
 const to = url => {
   Taro.vibrateShort()
-  Taro.navigateTo({ url })
+  if (!user.value.is_checkin) {
+    Taro.showToast({ title: '请先签到', icon: 'none' })
+  } else {
+    Taro.navigateTo({ url })
+  }
+}
+
+const onTapBind = () => {
+  Taro.vibrateShort()
+  if (user.value && !user.value.staff_id) {
+    Taro.navigateTo({ url: '/pages/bind/index' })
+  }
 }
 
 useDidShow(() => {
@@ -34,20 +45,28 @@ const onTapCheckin = async () => {
     fail: (e) => {
       Taro.hideLoading()
       Taro.showModal({
-        title: '提示', content: '获取位置失败，请打开定位权限', success: () => {
+        title: '提示', content: '需现场签到，请打开定位权限', success: () => {
           Taro.openSetting()
         }
       })
     },
   })
 }
+
+useShareAppMessage(() => {
+  return {
+    title: '数字森凌家庭日',
+    path: '/pages/index/index',
+    imageUrl: 'http://fawn-1305396618.cos.ap-nanjing.myqcloud.com/EIJF62Tmq9gW9XQfrGbfIBs0tlHRyi9EYqyet72I.png',
+  }
+})
 </script>
 
 <template>
   <view class="index" :style="{ paddingTop: `${statusbar}px` }" v-if="user">
     <view class="index-bar">个人中心</view>
     <view class="index-bg"></view>
-    <view class="index-info">
+    <view class="index-info" @tap="onTapBind">
       <image class="index-info-avatar" src="/static/user/avatar.png"></image>
       <view class="index-info-name">{{ user && user.staff && user.staff.job_no ? user.staff.job_no : '未绑定' }}</view>
       <view class="index-info-tips">加油～奥里给～</view>
@@ -81,15 +100,15 @@ const onTapCheckin = async () => {
         </view>
         <view class="index-action-body">
           <view class="index-action-item">
-            <image src="/static/user/action-0.png"></image>
+            <image src="/static/icons/live.png"></image>
             <view>照片直播</view>
           </view>
           <view class="index-action-item" @tap="to(`/pages/vouchers/index`)">
-            <image src="/static/user/action-1.png"></image>
+            <image src="/static/icons/voucher.png"></image>
             <view>美食券</view>
           </view>
           <view class="index-action-item" @tap="to(`/pages/qrcode/index`)">
-            <image src="/static/user/action-2.png"></image>
+            <image src="/static/icons/qrcode.png"></image>
             <view>个人码</view>
           </view>
         </view>
