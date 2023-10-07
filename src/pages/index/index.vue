@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import Taro, { useDidShow, useShareAppMessage } from '@tarojs/taro'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from "@/stores/auth";
-import { checkin } from '@/api/user'
+import { checkin, live } from '@/api/user'
 
 const statusbar = ref(Taro.getSystemInfoSync().statusBarHeight)
 
@@ -25,6 +25,12 @@ const onTapBind = () => {
   if (user.value && !user.value.staff_id) {
     Taro.navigateTo({ url: '/pages/bind/index' })
   }
+}
+
+const toLive = async () => {
+  Taro.vibrateShort()
+  const data = await live()
+  Taro.navigateToMiniProgram(data)
 }
 
 useDidShow(() => {
@@ -79,7 +85,10 @@ useShareAppMessage(() => {
       <view class="index-my">
         <view class="index-my-title flex flex-items-center">
           <view class="index-my-title-left flex-auto">我的积分</view>
-          <image class="index-my-title-right" @tap="to(`/pages/game/index`)" mode="heightFix" src="/static/user/cre.png"></image>
+          <view class="index-my-title-right" @tap="to(`/pages/qrcode/index`)">
+            <text>积分兑换 (仅能兑换一次)</text>
+            <image src="/static/icons/chevron-right.svg"></image>
+          </view>
         </view>
         <view class="index-my-body">
           <view class="index-my-item" @tap="to(`/pages/game/index`)">
@@ -88,8 +97,11 @@ useShareAppMessage(() => {
             </view>
             <image src="/static/user/icon-1.png"></image>
           </view>
-          <view class="index-my-item" @tap="to(`/pages/qrcode/index`)">
-            <view>积分兑换</view>
+          <view class="index-my-item" @tap="to(`/pages/game/index`)">
+            <view style="line-height: 1;margin-top: 28px;">
+              <view style="line-height: 1;margin-bottom: 8px;">赢游戏</view>
+              <view style="line-height: 1;">赚积分</view>
+            </view>
             <image src="/static/user/icon-2.png"></image>
           </view>
         </view>
@@ -99,7 +111,7 @@ useShareAppMessage(() => {
           <view class="index-action-title-left flex-auto">其他服务</view>
         </view>
         <view class="index-action-body">
-          <view class="index-action-item">
+          <view class="index-action-item" @tap="toLive">
             <image src="/static/icons/live.png"></image>
             <view>照片直播</view>
           </view>
@@ -214,7 +226,14 @@ useShareAppMessage(() => {
       }
 
       &-right {
-        height: 36px;
+        font-size: 24px;
+        color: #3F68B7;
+        image {
+          width: 24px;
+          height: 24px;
+          vertical-align: -2px;
+          margin-left: 4px;
+        }
       }
     }
 

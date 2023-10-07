@@ -44,6 +44,7 @@ useLoad(() => {
 
   <view class="modal-mask" :class="{ visiable: showModal }" @tap="showModal = false"></view>
   <view class="modal-inner" :class="{ visiable: showModal }" @tap="showModal = false">
+    <view class="modal-inner-name">{{ currentModal ? currentModal.name : '' }}</view>
     <view class="modal-inner-text">{{ currentModal ? currentModal.rule : '' }}</view>
     <image class="modal-inner-bg" src="/static/game/rule.png"></image>
   </view>
@@ -97,14 +98,25 @@ useLoad(() => {
       width: 100%;
       height: 100%;
     }
-    &-text {
+    &-name {
       top: 160px;
       width: 100%;
       box-sizing: border-box;
       padding: 0 80px;
       color: #FFFFFF;
-      font-size: 28px;
+      font-size: 34px;
       font-weight: 500;
+      line-height: 1.5;
+      text-align: center;
+      position: absolute;
+    }
+    &-text {
+      top: 240px;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 80px;
+      color: #FFFFFF;
+      font-size: 28px;
       line-height: 1.5;
       text-align: center;
       position: absolute;
