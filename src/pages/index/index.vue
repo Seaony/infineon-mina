@@ -63,7 +63,7 @@ useShareAppMessage(() => {
   return {
     title: '数字森凌家庭日',
     path: '/pages/index/index',
-    imageUrl: 'http://fawn-1305396618.cos.ap-nanjing.myqcloud.com/EIJF62Tmq9gW9XQfrGbfIBs0tlHRyi9EYqyet72I.png',
+    imageUrl: 'http://fawn-1305396618.cos.ap-nanjing.myqcloud.com/w3y2Nj0oiggZSedSsD6tfLbg3gupiefPe1MnN94Z.png',
   }
 })
 </script>

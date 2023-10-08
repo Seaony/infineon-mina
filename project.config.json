@@ -1,8 +1,6 @@
 {
   "miniprogramRoot": "dist/",
-  "projectname": "infineon-mina",
   "description": "infineon",
-  "appid": "wx4d25e2ea94f1f046",
   "setting": {
     "urlCheck": true,
     "es6": false,
@@ -16,18 +14,22 @@
       "outputPath": ""
     },
     "uglifyFileName": true,
-    "packNpmRelationList": []
+    "packNpmRelationList": [],
+    "coverView": false,
+    "showShadowRootInWxmlPanel": false,
+    "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",
-  "libVersion": "3.1.2",
   "srcMiniprogramRoot": "dist/",
-  "packOptions": {
-    "ignore": [],
-    "include": []
-  },
   "condition": {},
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
-  }
+  },
+  "libVersion": "3.1.2",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "appid": "wx4d25e2ea94f1f046"
 }
