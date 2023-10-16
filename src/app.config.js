@@ -2,6 +2,7 @@ export default {
   pages: [
     'pages/index/index',
     'pages/action/index',
+    'pages/live/index',
     'pages/vouchers/index',
     'pages/action/dec',
     'pages/game/index',

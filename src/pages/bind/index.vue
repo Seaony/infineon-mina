@@ -38,7 +38,7 @@ const onTapLogin = async () => {
         <view class="bind-index-form-item-title">工号</view>
         <view class="bind-index-form-item-inner flex flex-items-center">
           <image src="/static/bind/password.png"></image>
-          <input class="flex-auto" v-model="job_no" type="text">
+          <input class="flex-auto" v-model="job_no" type="number">
         </view>
       </view>
       <button class="bind-index-form-btn" @tap="onTapLogin">登录</button>

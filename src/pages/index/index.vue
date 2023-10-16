@@ -11,9 +11,9 @@ const authStore = useAuthStore()
 
 const { user } = storeToRefs(authStore)
 
-const to = url => {
+const to = (url, mustCheckIn = true) => {
   Taro.vibrateShort()
-  if (!user.value.is_checkin) {
+  if (!user.value.is_checkin && mustCheckIn) {
     Taro.showToast({ title: '请先签到', icon: 'none' })
   } else {
     Taro.navigateTo({ url })
@@ -29,8 +29,11 @@ const onTapBind = () => {
 
 const toLive = async () => {
   Taro.vibrateShort()
-  const data = await live()
-  Taro.navigateToMiniProgram(data)
+  if (true) {
+    Taro.navigateTo({ url: '/pages/live/index' })
+  }
+  // const data = await live()
+  // Taro.navigateToMiniProgram(data)
 }
 
 useDidShow(() => {
@@ -40,22 +43,30 @@ useDidShow(() => {
 })
 
 const onTapCheckin = async () => {
-  Taro.showLoading()
-  Taro.getLocation({
-    success: async e => {
-      await checkin(e)
-      await authStore.refresh()
-      Taro.hideLoading()
-      Taro.showToast({ title: '签到成功', icon: 'none' })
-    },
-    fail: (e) => {
-      Taro.hideLoading()
-      Taro.showModal({
-        title: '提示', content: '需现场签到，请打开定位权限', success: () => {
-          Taro.openSetting()
-        }
-      })
-    },
+  Taro.showModal({
+    title: '活动须知',
+    content: '请确认报名时填写的信息准确无误，如因错误信息无法购买保险，所产生的后果自行负责',
+    success (res) {
+      if (res.confirm) {
+        Taro.showLoading()
+        Taro.getLocation({
+          success: async e => {
+            await checkin(e)
+            await authStore.refresh()
+            Taro.hideLoading()
+            Taro.showToast({ title: '签到成功', icon: 'none' })
+          },
+          fail: (e) => {
+            Taro.hideLoading()
+            Taro.showModal({
+              title: '提示', content: '需现场签到，请打开定位权限', success: () => {
+                Taro.openSetting()
+              }
+            })
+          },
+        })
+      }
+    }
   })
 }
 
@@ -91,13 +102,13 @@ useShareAppMessage(() => {
           </view>
         </view>
         <view class="index-my-body">
-          <view class="index-my-item" @tap="to(`/pages/game/index`)">
+          <view class="index-my-item" @tap="to(`/pages/game/index`, false)">
             <view>
               <text>{{ user ? user.credits : 0 }}</text>
             </view>
             <image src="/static/user/icon-1.png"></image>
           </view>
-          <view class="index-my-item" @tap="to(`/pages/game/index`)">
+          <view class="index-my-item" @tap="to(`/pages/game/index`, false)">
             <view style="line-height: 1;margin-top: 28px;">
               <view style="line-height: 1;margin-bottom: 8px;">赢游戏</view>
               <view style="line-height: 1;">赚积分</view>
