@@ -13,11 +13,7 @@ const { user } = storeToRefs(authStore)
 
 const to = (url, mustCheckIn = true) => {
   Taro.vibrateShort()
-  if (!user.value.is_checkin && mustCheckIn) {
-    Taro.showToast({ title: '请先签到', icon: 'none' })
-  } else {
-    Taro.navigateTo({ url })
-  }
+  Taro.navigateTo({ url })
 }
 
 const onTapBind = () => {
@@ -44,8 +40,8 @@ useDidShow(() => {
 
 const onTapCheckin = async () => {
   Taro.showModal({
-    title: '活动须知',
-    content: '请确认报名时填写的信息准确无误，如因错误信息无法购买保险，所产生的后果自行负责',
+    title: '安全提醒',
+    content: '进入会场后请遵守安全规则！此活动已根据报名时所填信息购买保险，如因本人提供错误信息导致保险购买失败，后果自行负责。',
     success (res) {
       if (res.confirm) {
         Taro.showLoading()
@@ -86,7 +82,7 @@ useShareAppMessage(() => {
     <view class="index-info" @tap="onTapBind">
       <image class="index-info-avatar" src="/static/user/avatar.png"></image>
       <view class="index-info-name">{{ user && user.staff && user.staff.job_no ? user.staff.job_no : '未绑定' }}</view>
-      <view class="index-info-tips">加油～奥里给～</view>
+      <view class="index-info-tips">数字低碳  共创未来</view>
     </view>
     <view class="index-wrap">
       <view class="index-sign flex flex-items-center">
